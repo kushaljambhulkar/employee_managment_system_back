@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class EmployeeController {
 
     //Build Add Employee REST API
     @PostMapping
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         EmployeeDto savedEmployee = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
@@ -41,7 +42,7 @@ public class EmployeeController {
     //Build Update Employee REST API
     @PutMapping("{id}")
     public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") Long employeeId,
-                                                      @RequestBody EmployeeDto updatedEmployee){
+                                                      @Valid @RequestBody EmployeeDto updatedEmployee){
         EmployeeDto employeeDto = employeeService.updateEmployee(employeeId, updatedEmployee);
         return ResponseEntity.ok(employeeDto);
     }

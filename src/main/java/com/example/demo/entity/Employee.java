@@ -27,5 +27,7 @@ public class Employee {
     @Column(name = "email_id", nullable = false, unique = true)
     private String email;
 
-    private String department;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 }
