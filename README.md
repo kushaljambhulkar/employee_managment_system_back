@@ -9,7 +9,7 @@ This project is a RESTful API built with Spring Boot for managing employees and 
 -   [Configuration](#configuration)
 -   [Running the Application](#running-the-application)
 -   [API Endpoints](#api-endpoints)
--   [Contributing](#contributing)
+
 
 
 ## Prerequisites
@@ -105,14 +105,4 @@ Here are the available API endpoints:
 -   **GET /api/employees/all:** Get all employees.
 -   **PUT /api/employees/{id}:** Update an employee.
 -   **DELETE /api/employees/{id}:** Delete an employee.
-
-## Contributing
-
-If you'd like to contribute to this project, please follow these steps:
-
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/your-feature`).
-3.  Make your changes and commit them (`git commit -am 'Add some feature'`).
-4.  Push to the branch (`git push origin feature/your-feature`).
-5.  Create a new pull request.
 
