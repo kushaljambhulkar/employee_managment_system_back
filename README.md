@@ -1,388 +1,118 @@
+# Employee Management System
 
-<h1 style="text-align: center">Functional Specification: Employee Management System Application</h1>
+This project is a RESTful API built with Spring Boot for managing employees and their departments.
 
+## Table of Contents
 
-<hr>
-<p>
-<strong>1. Project Overview:</strong>
-</p>
-<ul>
+-   [Prerequisites](#prerequisites)
+-   [Installation](#installation)
+-   [Configuration](#configuration)
+-   [Running the Application](#running-the-application)
+-   [API Endpoints](#api-endpoints)
+-   [Contributing](#contributing)
+-   [License](#license)
 
-<li><strong>Project Name:</strong> Employee Management System Application</li>
+## Prerequisites
 
-<li><strong>Project Goal:</strong> To provide a simple web-based application for managing employee information, allowing users to Create, Read, Update, and Delete employee records.</li>
+Before you begin, ensure you have met the following requirements:
 
-<li><strong>Version</strong>: 1.0<br><strong>Date</strong>: 19/12/2024</li>
+-   **Java Development Kit (JDK):**  Make sure you have JDK 17 or higher installed. You can check your Java version by running `java -version` in your terminal.
+-   **Maven:** This project uses Maven for dependency management. Ensure you have Maven installed. You can check it by running `mvn -version` in your terminal.
+-   **PostgreSQL:** This project uses PostgreSQL as the database. Ensure you have PostgreSQL installed and running on your local machine.
+-   **Git:** You'll need Git to clone the repository.
+-   **IDE (Optional):** An IDE like IntelliJ IDEA or Eclipse can be helpful, but it's not strictly required.
 
-<li><strong>Developer</strong>: Kushal Jambhulkar</li>
-</ul>
-<p>
-<strong>2. Scope:</strong>
-</p>
-<ul>
+## Installation
 
-<li>Displaying a list of employees with their basic details.</li>
+1.  **Clone the repository:**
 
-<li>Adding new employee records with fields for First Name, Last Name, Email, and Department.</li>
+    ```bash
+    git clone https://github.com/yourusername/yourrepository.git
+    ```
 
-<li>Updating existing employee records with the same fields.</li>
+    Replace `https://github.com/yourusername/yourrepository.git` with your project's Git repository URL.
 
-<li>Deleting employee records.</li>
+2.  **Navigate to the project directory:**
 
-<li>A separate page for adding new employees.</li>
-</ul>
-<p>
-<strong>3. User Stories:</strong>
-</p>
-<ul>
+    ```bash
+    cd yourrepository
+    ```
 
-<li>As a user, I want to see a list of all employees on the home page.</li>
+## Configuration
 
-<li>As a user, I want to be able to add a new employee to the system by filling out a form.</li>
+1.  **Database Setup:**
+    -   Create a PostgreSQL database named `employee_db` (or any other name you prefer).
+    -   Create a user with username `postgres` (or any name you prefer) and the password you'll specify in the `application.properties` file.
+    -   Grant all privileges to the user on the `employee_db` database.
 
-<li>As a user, I want to be able to edit the details of an existing employee.</li>
+2.  **application.properties:**
+    -   Open the `src/main/resources/application.properties` file.
+    -   Modify the following properties to match your PostgreSQL setup:
 
-<li>As a user, I want to be able to remove an employee from the system.</li>
-</ul>
-<p>
-<strong>4. Functional Requirements:</strong>
-</p>
-<p>
-<strong>Home Page (See Employees):</strong>
-</p>
-<ul>
+    ```properties
+    server.port=8080
 
-<li><strong>Show List:</strong> See a table of all employees.</li>
+    spring.datasource.url=jdbc:postgresql://localhost:5432/employee_db
+    spring.datasource.username=postgres
+    spring.datasource.password=your_db_password
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+    spring.jpa.database=POSTGRESQL
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.jpa.hibernate.ddl-auto = update
+    ```
 
-<li><strong>Add Button:</strong> "Add Employee" to make new ones. Click it, goes to the add page.</li>
+        -   `server.port`: The port on which the application will run (default is 8080).
+        -   `spring.datasource.url`: The URL for your PostgreSQL database. If your database is running on a different port or host, adjust accordingly.
+        -   `spring.datasource.username`: Your PostgreSQL database username.
+        -   `spring.datasource.password`: Your PostgreSQL database password. **Make sure to replace `your_db_password` with the actual password.**
+        -   `spring.jpa.hibernate.ddl-auto`:
+            -   `update`: This is the recommended setting for development. It will update the database schema if the entities change.
+            - `create`: used to create table
+            - `none`: use if there is no change in schema
+            - `create-drop`: used to create table when application start and delete when application stop.
 
-<li><strong>Edit Button:</strong> In the Action for each employee, there's an "Update" button. Click it, goes to the update form but it's already filled with their info so you can change it.</li>
+3. **Frontend Setup**
+    - If you have frontend for this project please follow the instruction of the that project and run that app in seprate port as this project running in 8080.
+    - If you are using ReactJS in your frontend make sure that you can change your url in you axios call or any library in your project.
+    - For Example : if your backend running in localhost:8080 and your frontend running in 3000.
+    - then you need to change like this, `const url = "http://localhost:8080/api/employees/all"`
 
-<li><strong>Remove Button:</strong> Also in Action, a "Delete" button. Click it. Employee gone from the list.</li>
-</ul>
-<p>
-<strong>Simple Diagram: Home Page</strong>
-</p>
-<p>
-<strong>4.2. Add Employee Page:</strong>
-</p>
-<p>
-<strong>Add Employee Page (Make New Ones):</strong>
-</p>
-<ul>
+## Running the Application
 
-<li><strong>Form Time:</strong> See blanks to fill: First Name, Last Name, Email, Department. You type in these boxes.</li>
-
-<li><strong>Done Button:</strong> Button says "Submit". Click it, the info you typed gets saved. Done!</li>
-
-<li><strong>Clear Button:</strong> Button says "Clear Form". Click it, all the boxes go empty again.</li>
-</ul>
-
-<strong>4.3. Update Employee:</strong>
-</p>
-<ul>
-
-<li>"Update" selection, the Add Employee form pre-populates with the employee's data.</li>
-
-<li>Submitting the modified form updates the employee record and refreshes the list.</li>
-</ul>
-
-<strong>4.4. Delete Employee:</strong>
-</p>
-<ul>
-
-<li>Remove an employee record from the database.
-
-
-<h1 style="text-align: center">Technical Specifications </h1>
-
-
-<p>
-<strong>Introduction:</strong>
-</p>
-<p>
-A web application to manage employees in an organization. Users can create, view, update, and delete employee records via a user-friendly interface the system integrates with third-party APIs to sBackend notifications (Email/SMS) when employee records are modified.
-</p>
-<hr>
-<h3><strong>1. System Overview</strong></h3>
-
-
-<p>
-The system consists of three primary components:
-</p>
-<ul>
-
-<li><strong>FrontBackend:</strong> A web-based interface where users interact with employee records.</li>
-
-<li><strong>Backend (Local API):</strong> Manages business logic, processes requests, and interacts with the database.</li>
-
-<li><strong>Database:</strong> Stores employee records.</li>
-</ul>
-<h3><strong>2. System Architecture</strong></h3>
-
-
-<p>
-The Employee Management System follows a <strong>three-tier architecture</strong>:
-</p>
-<ol>
-
-<li><strong>FrontBackend:</strong></li> 
-<ul>
- 
-<li>Developed using <strong>React.js</strong> (JavaScript, HTML/CSS for simplicity).</li>
- 
-<li>Communicates with the Backend via REST API requests.</li>
- 
-<li>Axios</li>
- 
-<li>React Router</li>
- 
-<li>npm</li> 
-</ul>
-
-<li><strong>Backend:</strong></li> 
-<ul>
- 
-<li>Built with <strong>Spring Boot (Java)</strong>.</li>
- 
-<li>Exposes REST Backendpoints to interact with employee data.</li>
- 
-<li>Implements <strong>business logic</strong> and enforces user permissions.</li>
- 
-<li>Java 17 </li>
- 
-<li>Spring Data JPA</li>
- 
-<li>Lombok</li>
- 
-<li>Maven</li> 
-</ul></li> 
-</ol>
-<ol>
-
-<li><strong>Database Specification:</strong></li> 
-<ul>
- 
-<li>Uses <strong>PostgreSQL</strong> for storing <strong>employee</strong> records as the relational database management system.</li>
- 
-<li>Schema includes the following tables:</li>  
-<ul>
-  
-<li><code>employee_id</code>
-
-<table>
-  <tr>
-   <td>
-<code>Column</code></li>  
-</ul></li>  
-</ul></li>  
-</ol>
-   </td>
-   <td><code>Data Type</code>
-   </td>
-   <td><code>Constraints</code>
-   </td>
-   <td><code>Description</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>employee_id</code>
-   </td>
-   <td><code>BIGINT</code>
-   </td>
-   <td><code>PRIMARY KEY, AUTO_INCREMENT</code>
-   </td>
-   <td><code>Uniquely identifies each employee record.</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>first_name</code>
-   </td>
-   <td><code>TEXT</code>
-   </td>
-   <td>
-   </td>
-   <td><code>Stores the first name of the employee.</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>last_name</code>
-   </td>
-   <td><code>TEXT</code>
-   </td>
-   <td>
-   </td>
-   <td><code>Stores the last name of the employee.</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>email</code>
-   </td>
-   <td><code>TEXT</code>
-   </td>
-   <td><code>NOT NULL, UNIQUE</code>
-   </td>
-   <td><code>Stores the email address of the employee (must be unique).</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>department_id</code>
-   </td>
-   <td><code>BIGINT</code>
-   </td>
-   <td><code>FOREIGN KEY referencing departments(id)</code>
-   </td>
-   <td><code>Foreign key linking to the employee's department.</code>
-   </td>
-  </tr>
-</table>
-
-  
-<ul>
-  
-<li><code>Department Table</code></li>  
-</ul>
-
-<table>
-  <tr>
-   <td><code>Column</code>
-   </td>
-   <td><code>Data Type</code>
-   </td>
-   <td><code>Constraints</code>
-   </td>
-   <td><code>Description</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>id</code>
-   </td>
-   <td><code>BIGINT</code>
-   </td>
-   <td><code>PRIMARY KEY, AUTO_INCREMENT</code>
-   </td>
-   <td><code>Uniquely identifies each department record.</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>name</code>
-   </td>
-   <td><code>TEXT</code>
-   </td>
-   <td>
-   </td>
-   <td><code>Stores the name of the department.</code>
-   </td>
-  </tr>
-</table>
-
-
-<h3>
-
-</h3>
-
-</p>
-<h3><strong>4. API Backendpoints</strong></h3>
-
-
-<p>
-<strong>Endpoint:</strong> <code>POST /api/employees</code>
-</p>
-<p>
-<strong>Description:</strong> Creates a new employee record.
-</p>
-<p>
-
-    <br>
-</p>
-<p>
-<strong>Request Payload (JSON):</strong>
-</p>
-<p>
-<strong>Response Payload:</strong>
-</p>
-<p>
-<strong>Success (Example):<br><br></strong> JSON
-</p>
-<p>
-<strong>Error (Example):<br><br></strong> JSON
-</p>
-<p>
-
-    <strong>Endpoint:</strong> <code>GET /api/employees/{id}</code> (Replace <code>{id}</code> with the employee's ID)
-</p>
-<p>
-
-    <strong>Description:</strong> Retrieves details for a specific employee.<br>
-</p>
-<p>
-
-    <strong>Request Payload:</strong> None<br>
-</p>
-<p>
-
-    <strong>Response Payload:</strong>
-</p>
-<p>
-
-    <strong>Success (Example - for <code>GET /api/employees/10</code>):<br></strong>
-
-<p>
-
-    <strong>Error (Example):<br></strong>
-</p>
-<p>
-
-    <strong>Endpoint:</strong> <code>GET /api/employees/all<br></code>
-</p>
-<p>
-
-    <strong>Description:</strong> Retrieves a list of all employees.<br>
-</p>
-<p>
-
-    <strong>Request Payload:</strong> None<br>
-</p>
-<p>
-
-    <strong>Response Payload:</strong>
-</p>
-<ul>
-
-<li><strong>Endpoint:</strong> <code>PUT /api/employees/{id}</code> (Replace <code>{id}</code> with the employee's ID)<br></li>
-
-<li><strong>Description:</strong> Updates the details of a specific employee.<br></li>
-
-<li><strong>Request Payload (JSON):<br><br></strong> </li>
-</ul>
-<ul>
-
-<li><strong>Response Payload:</strong> 
-<p>
-
-        <strong>Success (Example):</strong>
-</p></li>
-</ul>
-<p>
-<strong>Error (Example):</strong>
-</p>
-<p>
-<strong>Endpoint:</strong> <code>DELETE /api/employees/{id}</code> (Replace <code>{id}</code> with the employee's ID)
-</p>
-<p>
-<strong>Description:</strong> Deletes a specific employee.
-</p>
-<p>
-<strong>Request Payload:</strong> None
-</p>
-<p>
-<strong>Response Payload:</strong> (This will depend on your backend)
-</p>
-<p>
-
-    <strong>Success (Example):<br></strong>An empty response with a success status code (e.g., 204 No Content).
-</p>
-<p>
-
-    <strong>Error (Example):<br></strong>
-</p>
+1.  **Build the project:**
+
+    ```bash
+    mvn clean install
+    ```
+
+2.  **Run the application:**
+
+    ```bash
+    mvn spring-boot:run
+    ```
+
+    Alternatively, if you're using an IDE, you can run the `DemoApplication` class directly.
+
+3. **Testing the application**
+    - After the application is running, you can use tools like Postman or curl to test the API endpoints.
+
+## API Endpoints
+
+Here are the available API endpoints:
+
+-   **POST /api/employees:** Create a new employee.
+-   **GET /api/employees/{id}:** Get an employee by ID.
+-   **GET /api/employees/all:** Get all employees.
+-   **PUT /api/employees/{id}:** Update an employee.
+-   **DELETE /api/employees/{id}:** Delete an employee.
+
+## Contributing
+
+If you'd like to contribute to this project, please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/your-feature`).
+3.  Make your changes and commit them (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin feature/your-feature`).
+5.  Create a new pull request.
+
