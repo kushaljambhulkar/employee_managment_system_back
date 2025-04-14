@@ -10,7 +10,7 @@ This project is a RESTful API built with Spring Boot for managing employees and 
 -   [Running the Application](#running-the-application)
 -   [API Endpoints](#api-endpoints)
 -   [Contributing](#contributing)
--   [License](#license)
+
 
 ## Prerequisites
 
